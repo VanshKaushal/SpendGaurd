@@ -1,0 +1,6 @@
+{
+  "name": "@spend-guard/mcp-proxy",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": { "spendguard-proxy": "../../dist/packages/mcp-proxy/src/server.js" }
+}

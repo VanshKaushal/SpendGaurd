@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f2e9">
+  <meta name="description" content="Spend Guard is a local MCP proxy that checks paid tool requests against your budget, request history, and repository state. Explore the policy and download the local core.">
+  <title>Spend Guard — give your agent a budget</title>
+  <link rel="icon" href="./mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="header wrap">
+    <a class="brand" href="#" aria-label="Spend Guard home"><span class="brand-mark" aria-hidden="true"><span></span></span>spend<span class="brand-light">guard</span></a>
+    <nav aria-label="Main navigation"><a href="#how">How it works</a><a href="#demo">Try the policy</a><a href="#install">Install</a></nav>
+    <a class="header-cta" href="#pilot">Build with us <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span>LOCAL FIRST. DEVELOPER OWNED.</div>
+        <h1 id="hero-title">Give your agent<br>a budget.<br><em>Keep the last word.</em></h1>
+        <p class="hero-description">Let coding agents use paid tools. Set the spending rules before they make the next request.</p>
+        <div class="hero-actions"><a class="button button-dark" href="#demo">See a request get stopped <span aria-hidden="true">↘</span></a><a class="text-link" href="#install">Get the local core <span aria-hidden="true">→</span></a></div>
+        <p class="hero-note">v0.3 · Local MCP proxy · Deterministic decisions · Auditable ledger</p><p><a class="text-link" href="/engineering">Inspect engineering evidence ↗</a></p>
+      </div>
+      <div class="hero-figure" role="img" aria-label="Illustrative task budget: a coding agent requests a paid tool, Spend Guard checks it, and a repeated request is blocked before reaching the provider.">
+        <div class="figure-index"><span>01 / THE CONTROL POINT</span><span>BEFORE EXECUTION</span></div>
+        <div class="agent-node"><span class="node-symbol">&gt;_</span><div><span class="tiny-label">SOURCE</span><strong>Your coding agent</strong></div><span class="flow-arrow">↓</span></div>
+        <div class="request-slip"><span class="tiny-label">PAID REQUEST</span><span>search({ query: "fix build" })</span><b>$1.25</b></div>
+        <div class="guard-node"><span class="brand-mark" aria-hidden="true"><span></span></span><div><span class="tiny-label">POLICY GATE</span><strong>Spend Guard</strong></div><span class="guard-badge">CHECK</span></div>
+        <div class="decision-branches"><div><span class="branch-line"></span><span class="branch-label">FIRST REQUEST</span><strong class="allowed">APPROVE →</strong><span>Paid tool provider</span></div><div><span class="branch-line"></span><span class="branch-label">SAME REQUEST AGAIN</span><strong class="blocked">BLOCK ⊣</strong><span>No provider call</span></div></div>
+        <div class="figure-footer"><span>Rules stay in your control.</span><span class="tiny-label">ILLUSTRATIVE FLOW</span></div>
+      </div>
+    </section>
+    <div class="intro-strip"><div class="wrap"><span>A small control point.<br><strong>A clear spending boundary.</strong></span><p>For developers and teams whose agents buy search, sandbox runs, or other paid API resources. Runs where your agent runs.</p><span class="strip-index">MCP / SQLITE / NODE 24+</span></div></div>
+    <section class="section wrap" id="how" aria-labelledby="how-title">
+      <div class="section-heading"><span class="eyebrow">01 / BETWEEN INTENT AND SPEND</span><h2 id="how-title">The agent asks.<br>Your rules decide.</h2><p>Every routed paid request gets a decision and a reason. You choose the provider, prices, task budget, and approval threshold.</p></div>
+      <div class="rule-list">
+        <article><span class="rule-number">01</span><div><h3>Set a boundary</h3><p>Configure a task budget and known tool prices. Requests that exceed the hard cap stop before approval.</p></div><span class="rule-tag">BUDGET</span></article>
+        <article><span class="rule-number">02</span><div><h3>Catch repeated purchases</h3><p>Compare request fingerprints and repository state. Different useful queries can continue; equivalent retries can be blocked.</p></div><span class="rule-tag">HISTORY</span></article>
+        <article><span class="rule-number">03</span><div><h3>Keep an explanation</h3><p>Review reason codes, configured request values, and execution evidence in a local SQLite ledger.</p></div><span class="rule-tag">EVIDENCE</span></article>
+      </div>
+    </section>
+    <section class="demo-section" id="demo" aria-labelledby="demo-title">
+      <div class="wrap">
+        <div class="demo-heading"><div><span class="eyebrow">02 / TRY THE POLICY</span><h2 id="demo-title">One task.<br>Three spending stories.</h2></div><p>This browser demo runs the project's deterministic policy engine with simulated requests, prices, and repository history. No tool is called. No money moves.</p></div>
+        <div class="demo-shell">
+          <div class="demo-controls">
+            <div class="tiny-label">CHOOSE A SCENARIO</div>
+            <div class="scenario-buttons" role="group" aria-label="Demo scenarios">
+              <button class="scenario active" data-scenario="retry" aria-pressed="true"><span class="scenario-index">A</span><span><strong>Duplicate retry</strong><small>One request. Five attempts.</small></span><span class="scenario-arrow">↗</span></button>
+              <button class="scenario" data-scenario="queries" aria-pressed="false"><span class="scenario-index">B</span><span><strong>Different queries</strong><small>Same repo. New information.</small></span><span class="scenario-arrow">↗</span></button>
+              <button class="scenario" data-scenario="budget" aria-pressed="false"><span class="scenario-index">C</span><span><strong>Budget boundary</strong><small>A purchase crosses the cap.</small></span><span class="scenario-arrow">↗</span></button>
+            </div>
+            <p class="scenario-description" id="scenario-description">The first search asks for approval. Four identical retries are stopped before reaching the simulated provider.</p>
+            <label class="budget-label" for="demo-budget">Task budget <span>USD</span></label>
+            <div class="budget-input"><span aria-hidden="true">$</span><input id="demo-budget" name="demo-budget" type="number" min="0.01" max="1000" step="0.01" value="5.00" inputmode="decimal" aria-describedby="budget-help"></div>
+            <p class="control-note" id="budget-help">Edit the cap to explore the same requests.</p>
+            <div class="demo-actions"><button class="button button-lime" id="run-demo">Run scenario <span aria-hidden="true">→</span></button><button class="reset-button" id="reset-demo" aria-label="Reset demo">Reset</button></div>
+            <p class="demo-status" id="demo-status" role="status" aria-live="polite">Ready. Start the scenario.</p>
+          </div>
+          <div class="demo-console">
+            <div class="console-header"><span><span class="status-dot" aria-hidden="true"></span> TASK / DEMO-001</span><span>SIMULATED</span></div>
+            <div class="demo-metrics"><div><span>Executed value</span><strong id="spent-value">$0.00</strong></div><div><span>Blocked request value</span><strong id="blocked-value">$0.00</strong></div><div><span>Task cap</span><strong id="cap-value">$5.00</strong></div></div>
+            <div class="budget-track" role="progressbar" aria-label="Simulated budget consumed" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0"><span id="budget-fill"></span></div>
+            <div class="log-heading"><span>REQUEST / POLICY DECISION</span><span>USD</span></div>
+            <ol class="request-log" id="request-log" aria-label="Simulated request decisions"><li class="log-empty">Your decisions will appear here.<br><span>Start with duplicate retry.</span></li></ol>
+            <div class="approval-panel" id="approval-panel" hidden><div><span class="approval-label">YOUR APPROVAL</span><strong id="approval-title">Approve this simulated request?</strong><p id="approval-reason"></p></div><div class="approval-actions"><button class="button button-lime" id="approve-demo">Approve</button><button class="button button-outline" id="deny-demo">Deny</button></div></div>
+            <div class="reason-summary" id="reason-summary"><span class="tiny-label">REASON COUNTS</span><span>No decisions yet.</span></div>
+          </div>
+        </div>
+        <p class="demo-footnote">Blocked request value adds configured prices for blocked attempts. It is a counterfactual estimate, not measured savings or proof that a request was useless.</p>
+        <noscript><p class="noscript-note">Enable JavaScript to use the policy demo. The local installation and project information below remain available.</p></noscript>
+      </div>
+    </section>
+    <section class="section wrap architecture" aria-labelledby="architecture-title">
+      <div class="section-heading"><span class="eyebrow">03 / A SMALL LOCAL CORE</span><h2 id="architecture-title">Fits into your<br>existing workflow.</h2><p>Register Spend Guard as your agent's MCP provider. It connects to your upstream stdio or HTTP provider and forwards permitted calls.</p></div>
+      <div class="architecture-detail"><div class="architecture-flow"><span>CODING AGENT</span><b aria-hidden="true">↓</b><strong>SPEND GUARD</strong><b aria-hidden="true">↓</b><span>PAID MCP PROVIDER</span></div><div class="architecture-notes"><p><strong>Local policy.</strong> YAML rules and task context remain with you.</p><p><strong>Local records.</strong> Hash-chained SQLite decisions and execution evidence.</p><p><strong>Human approval.</strong> Use a controlling terminal or a protected local inbox in your browser.</p></div></div>
+      <div class="scope-note"><span class="tiny-label">THE CURRENT BOUNDARY</span><p>Single agent, single repository. Protection covers calls routed through the proxy. Provider prices must be configured. This core does not control model subscriptions or every cloud bill, and execution evidence does not prove code quality.</p></div>
+    </section>
+    <section class="install-section" id="install" aria-labelledby="install-title"><div class="wrap install-grid">
+      <div><span class="eyebrow">04 / RUN IT YOURSELF</span><h2 id="install-title">Your machine.<br>Your spending rules.</h2><p>The local core is free to download. You need <strong>Node.js 24 or later</strong> and a stdio or HTTP MCP provider. Start with the included simulated walkthrough before connecting paid tools.</p><a class="button button-dark" href="./downloads/spend-guard-0.3.0.tgz" download>Download v0.3.0 <span aria-hidden="true">↓</span></a><p class="download-note">npm package archive · Local install · No account required</p></div>
+      <div class="install-steps">
+        <article><div class="install-step-heading"><span class="step-number">1</span><h3>Install the downloaded archive</h3></div><div class="code-block"><pre id="install-command"><code>npm install -g ./spend-guard-0.3.0.tgz</code></pre><button class="copy-button" data-copy="install-command" aria-label="Copy installation command">Copy</button></div><p>Run from the folder containing your download. In Windows PowerShell, use <code>npm.cmd</code> if script execution is restricted.</p></article>
+        <article><div class="install-step-heading"><span class="step-number">2</span><h3>Try the local walkthrough</h3></div><div class="code-block"><pre id="demo-command"><code>spendguard demo
+spendguard dashboard --ledger .spendguard/demo/ledger.db</code></pre><button class="copy-button" data-copy="demo-command" aria-label="Copy demo commands">Copy</button></div><p>Inspect simulated requests, duplicate blocks, and the read-only local audit dashboard before real-spend setup.</p></article>
+        <article><div class="install-step-heading"><span class="step-number">3</span><h3>Connect the MCP sandbox</h3></div><p>Initialize the local sandbox and register the generated configuration with your agent. Open the private approval inbox from proxy stderr. Sandbox responses and prices are simulated; no purchase is made. See the engineering page for the full walkthrough.</p><div class="code-block"><pre id="setup-command"><code>spendguard init --sandbox --config .spendguard/sandbox.yaml --repo .
+spendguard mcp-config --config .spendguard/sandbox.yaml --ledger .spendguard/sandbox.db --approval browser</code></pre><button class="copy-button" data-copy="setup-command" aria-label="Copy configuration commands">Copy</button></div></article>
+      </div>
+    </div><p id="copy-status" class="copy-status wrap" role="status" aria-live="polite"></p></section>
+    <section class="section wrap settlement" aria-labelledby="settlement-title">
+      <div><span class="eyebrow">05 / THE PAYMENT BOUNDARY</span><h2 id="settlement-title">Policy first.<br>Wallet authorization next.</h2></div>
+      <div class="settlement-copy"><p>For Solana and paid-resource workflows, the useful control point is before the purchase is authorized. Spend Guard can provide that policy decision while an external wallet or signing component handles payment.</p><div class="settlement-path"><span>REQUEST</span><b aria-hidden="true">→</b><span>POLICY</span><b aria-hidden="true">→</b><span>EXTERNAL SIGNER</span></div><p class="settlement-status"><span class="status-dot" aria-hidden="true"></span>External wallet integration contract tested locally. Live Solana settlement has not been validated.</p><p class="muted">The guard does not store private keys, take custody, or present this demo as an on-chain transaction.</p></div>
+    </section>
+    <section class="pilot-section" id="pilot" aria-labelledby="pilot-title"><div class="wrap pilot-grid">
+      <div class="pilot-copy"><span class="eyebrow">06 / BUILD FROM A REAL WORKFLOW</span><h2 id="pilot-title">Bring a paid-tool<br>workflow.<br><em>Let's put it to work.</em></h2><p>For small teams and developers who want hands-on help connecting one provider, choosing policies, and reviewing spending incidents.</p><div class="pilot-price"><strong>$149</strong><span>Proposed four-week assisted pilot<br>Scope and availability confirmed personally</span></div><ul class="pilot-includes"><li>One provider and one task workflow</li><li>Setup help and policy tuning</li><li>Review of blocks, false alarms, and request value</li></ul><p class="pilot-boundary">This is an early pilot offer. There is no self-serve checkout, subscription, or guaranteed savings.</p></div>
+      <form id="pilot-form" class="pilot-form">
+        <h3>Start with one real workflow</h3><p>Tell us which paid tools your agent uses. Request an assisted pilot, or download a copy to keep locally.</p>
+        <div class="form-field"><label for="pilot-name">Name <span aria-hidden="true">*</span></label><input id="pilot-name" name="name" autocomplete="name" required minlength="2" maxlength="120" placeholder="Your name"></div>
+        <div class="form-field"><label for="pilot-email">Email <span aria-hidden="true">*</span></label><input id="pilot-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@yourteam.com"></div>
+        <div class="form-field"><label for="pilot-workflow">What does your agent buy? <span aria-hidden="true">*</span></label><textarea id="pilot-workflow" name="workflow" required minlength="10" maxlength="3000" rows="3" placeholder="Your agent, paid provider, and a spending problem you have observed…"></textarea></div>
+        <div class="form-field"><label for="pilot-budget">Monthly paid-tool spending <span class="optional">optional, USD</span></label><input id="pilot-budget" name="budget" type="number" min="0" max="1000000000" step="0.01" inputmode="decimal" placeholder="e.g. 200"></div>
+        <label class="consent-label"><input id="pilot-consent" type="checkbox"> I agree to share these details with the Spend Guard founder to discuss this pilot. No payment is collected.</label><input id="pilot-website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="honeypot"><button class="button button-dark" id="request-pilot" type="button">Discuss this workflow <span aria-hidden="true">↗</span></button><button class="reset-button" type="submit">Download a local copy ↓</button><button id="delete-pilot" class="reset-button" type="button" hidden>Delete my submitted request</button><a id="pilot-mail" class="text-link" hidden>Open an email draft <span aria-hidden="true">↗</span></a>
+        <p class="form-status" id="pilot-status" role="status" aria-live="polite">Details are sent only when you request the pilot. Submissions are private and used to contact you about this workflow. Download your receipt to keep a deletion token. No details are saved to browser storage.</p>
+      </form>
+    </div><details class="deletion-section wrap"><summary>Delete a previously submitted request</summary><p>Use the request ID and deletion token from your downloaded receipt. This deletes the stored pilot enquiry.</p><form id="receipt-delete-form"><label for="receipt-id">Request ID</label><input id="receipt-id" required placeholder="Request ID from your receipt"><label for="receipt-token">Deletion token</label><input id="receipt-token" required type="password" autocomplete="off" placeholder="Deletion token from your receipt"><button class="button button-dark" type="submit">Delete request</button><p id="receipt-delete-status" role="status"></p></form></details></section>
+  </main>
+  <footer class="footer wrap"><a class="brand" href="#" aria-label="Spend Guard home"><span class="brand-mark" aria-hidden="true"><span></span></span>spend<span class="brand-light">guard</span></a><p>Built by Vansh Kaushal.<br>Clear rules for paid agent actions.</p><a href="#install">Get started <span aria-hidden="true">↑</span></a></footer>
+</body>
+</html>

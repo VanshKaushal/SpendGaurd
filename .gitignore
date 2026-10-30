@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+*.db
+*.db-shm
+*.db-wal
+remote-ledger-backups/
+.spendguard/
+*.log
+release/
+*.tsbuildinfo
+site-worker/dist/
+.env
+.env.*
+!.env.example
+*.pem

@@ -1,0 +1,12 @@
+dist/**/test/
+dist/vitest.config.*
+dist/**/*.js.map
+**/*.db
+**/*.db-wal
+**/*.db-shm
+.spendguard/
+site/
+site-runtime/
+site-content/
+site-worker/
+release/

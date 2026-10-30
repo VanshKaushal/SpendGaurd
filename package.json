@@ -1,0 +1,73 @@
+{
+  "name": "spend-guard",
+  "version": "0.3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VanshKaushal/SpendGaurd.git"
+  },
+  "homepage": "https://spend-guard.icy-rat-7140.chatgpt.site",
+  "bugs": {
+    "url": "https://github.com/VanshKaushal/SpendGaurd/issues"
+  },
+  "description": "Local task-aware spending controls for paid coding-agent tools",
+  "license": "MIT",
+  "author": "Vansh Kaushal",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "bin": {
+    "spendguard": "dist/packages/report-cli/src/cli.js",
+    "spendguard-proxy": "dist/packages/mcp-proxy/src/server.js",
+    "spendguard-http": "dist/packages/http-fallback-proxy/src/server.js"
+  },
+  "exports": {
+    ".": "./dist/packages/mcp-proxy/src/guard.js",
+    "./ledger": "./dist/packages/mcp-proxy/src/ledger.js",
+    "./approval": "./dist/packages/mcp-proxy/src/approval.js",
+    "./x402": "./dist/packages/x402-client/src/client.js"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "spendguard.config.yaml",
+    "LICENSE",
+    "README.md",
+    "SECURITY.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "tsc -b && node scripts/finish-build.mjs",
+    "prepack": "npm run build",
+    "demo": "tsx packages/report-cli/src/cli.ts demo",
+    "doctor": "tsx packages/report-cli/src/cli.ts doctor",
+    "site:prepare": "node site-worker/scripts/build.mjs",
+    "site:preview": "node site-worker/scripts/preview.mjs",
+    "release:verify": "node scripts/verify-release.mjs",
+    "benchmark": "node scripts/benchmark.mjs",
+    "verify": "node scripts/verify-platform.mjs",
+    "clean": "tsc -b --clean",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit --pretty false",
+    "spendguard": "tsx packages/report-cli/src/cli.ts",
+    "proxy": "tsx packages/mcp-proxy/src/server.ts",
+    "http-proxy": "tsx packages/http-fallback-proxy/src/server.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "5.0.5",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.0",
+    "vitest": "5.0.5"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
+    "@modelcontextprotocol/server": "2.4.0",
+    "yaml": "^2.8.0",
+    "zod": "4.6.7"
+  }
+}

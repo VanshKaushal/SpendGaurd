@@ -1,0 +1,9 @@
+{
+  "name": "spendguard-showcase",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/copy-build.mjs",
+    "validate": "node scripts/validate-artifact.mjs"
+  }
+}

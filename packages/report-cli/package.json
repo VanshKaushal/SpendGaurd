@@ -1,0 +1,6 @@
+{
+  "name": "@spend-guard/report-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": { "spendguard": "../../dist/packages/report-cli/src/cli.js" }
+}

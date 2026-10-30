@@ -1,0 +1,33 @@
+task_budget_usd: 10
+soft_approval_threshold_usd: 2
+max_failed_attempts: 3
+max_calls_without_progress: 5
+approval_timeout_ms: 60000
+duplicate_ignored_params: [requestId, request_id, traceId, trace_id]
+provider_allowlist:
+  - sandbox.example.com
+  - search-provider.example.com
+duplicate_window: task_lifetime
+verification_full_threshold_usd: 2
+task_id: default-task
+task_description: Default Spend Guard task
+repo_path: ..
+tracked_paths: ["."]
+provider:
+  id: sandbox.example.com
+  transport: stdio
+  command: node
+  args: [path/to/paid-provider.js]
+tool_prices_usd: {}
+# HTTP upstream MCP alternative:
+# provider:
+#   id: your-provider
+#   transport: http
+#   url: https://your-provider.example/mcp
+#   headers:
+#     Authorization: Bearer ${PROVIDER_API_KEY}
+# Raw x402 fallback only gates requests carrying payment signatures.
+# http_fallback: {upstream_url: https://paid-api.example.com, listen_port: 4402}
+remote_sync:
+  enabled: false
+  directory: remote-ledger-backups
